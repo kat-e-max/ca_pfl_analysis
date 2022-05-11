@@ -8,7 +8,7 @@ By 'outreach,' I envision mailings to hospitals that service certain areas, majo
 Targeted outerach will help inform the agency's budget and resources.
 Other analysts could use the methodology developed in this tool on other Census variables of interest to target outreach to different populations. 
 
-# Main inputs and outputs:
+# Main inputs and outputs, by script:
 
 This project contains *8 scripts*, which should be run in the following order. 
 See "Where to get input data" for additional instructions.
@@ -17,29 +17,29 @@ Note that due to file size constraints on GitHub.com, the .gpkg files will not b
 1. *01_ca_pfl_import.py*
     - Purpose: This script uses the monthly summary data on the PFL program from California's Open Data Portal and applies some basic data cleaning techniques to prepare it for analysis in script 2.
     - Input: "Paid_Family_Leave__PFL__-_Monthly_Data.csv"
-    - Output: "ca_pfl_data.csv"
+    - Output: "ca_pfl_data.csv" (a cleaned up version of the input)
 
 2. *02_ca_pfl_analyze.py*
     - Purpose: This script analyzes aspects of the PFL monthly data cleaned in script 1 and plots some visualizations.
     - Input: "ca_pfl_data.csv"
-    - Outputs: mean_month.png, paidvfiled.png
+    - Outputs: mean_month.png, paidvfiled.png (visualizations generated from script 2 using the input data)
 
 3. *03_ca_claimant-demographics_import.py*
     - Purpose: This script applies some data cleaning techniques on an Excel file of claimant demographics from California's PFL program to prepare it for analysis
     in script 4.
     - Input: "Claimant Demographics-DE_2530_Rev.5_1-22.csv"
-    - Output: "claimant.csv"
+    - Output: "claimant.csv" (a cleaned up version of the input)
 
 4. *04_ca_claimant-demographics_analyze.py*
     - Purpose: This script analyzes aspects of the claimant demographics data imported in script 3 and plots some visualizations.
     - Input: "claimant.csv"
-    - Outputs: share-claims-bysex.png, bonding-claims.png, care-claims.png, total-claims.png, first-claims-bytype-bysex.png
+    - Outputs: share-claims-bysex.png, bonding-claims.png, care-claims.png, total-claims.png, first-claims-bytype-bysex.png (visualizations generated from script 4 using the input data)
 
 5. *05_acs_import.py*
     - Purpose: This script uses an API call to download data on variables of interest from the U.S. Census' American Community Survey (2018), 
     converts the data of interest to a Pandas dataframe, and writes out the dataframe to a .csv file.
     - Input: the shortlist of ACS variables of interest ("ACS2018_var.xlsx")
-    - Output: "acs-data.csv"
+    - Output: "acs-data.csv" (the Census data downloaded from the API call run in script 5)
 
 6. *06_acs_analyze.py*
     - Purpose: This script analyzes aspects of the Census data downloaded in script 5. 
@@ -48,20 +48,21 @@ Note that due to file size constraints on GitHub.com, the .gpkg files will not b
     Those counties are thereafter referred to as the "big counties."
     The script then creates a dataframe of those big counties, and writes out the dataframe to a .csv file.
     - Input: "acs-data.csv"
-    - Output: "big.csv"
+    - Output: "big.csv" (dataframe of big counties' ACS data)
 
 7. *07_merge.py*
     - Purpose: This script merges the ACS data on the big counties with their corresponding geographic data (tracts and places).
     It does this by reading in the data, intersecting the tracts and places, and joining the ACS data onto the intersected data.
     After some basic data cleaning and setting up the projection, it writes out the geodataframe to a geopackage file.
     - Inputs: "big.csv", "tl_2018_06_tract.zip", "tl_2018_06_place.zip"
-    - Output: "merge.gpkg" (layer: "state")
+    - Output: "merge.gpkg" (layer: "state") (a geopackage file with 1 layer: the entire state of California, with tract and place data. ACS data on big counties is also in this layer, but we will use other layers created in the next script to highlight those.)
 
 8. *08_filter.py*
     - Purpose: This script puts each of the big counties and their corresponding places on their own layers, and prepares them for visualizing in QGIS
     - Inputs: "big.csv", "merge.gpkg"
     - Outputs: "filter.gpkg" (with the following new layers: "big_counties", "alameda", "alameda-places", "sacramento", "sacramento-places", "santaclara", "santaclara-places", "losangeles", "losangeles-places", "sandiego", "sandiego-places", "sanbernardino", "sanbernardino-places", "riverside", "riverside-places", "orange", "orange-places")
-
+        - This output file builds upon the work done in script 7 by adding layers for the big counties as a group and each of the big counties on its own. Each of the big counties also has its own layer with the place names data.
+    
 After running *08_filter.py*, switch over to QGIS to create the final visualizations.
 - Open QGIS. Save the project as "outreach.qgz"
 - Import the data created in script 8 
