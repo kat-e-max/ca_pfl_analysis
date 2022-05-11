@@ -67,14 +67,14 @@ county_names = {'001' : 'Alameda',
 # this creates 2 layers per county - one with place names, one with the Census data by tract
 for code,name in county_names.items(): # return the key and value for each entry
     lname = name.lower().replace(' ','') # make a lower case name with no spaces
-    selected = state.query( f"COUNTYFP == '{code}'") # select the county through a query
-    selected.plot("COUNTYFP") # plot each county
+    selected = state.query( f"COUNTYFP == '{code}'") # select the county through a query of the entire state
+    selected.plot("COUNTYFP") # plot each county individually
     selected.to_file(out_file, layer = f"{lname}", index = False) # write it out as its own layer
     # using the lowercase name defined earlier as the layer name
     places = selected.dissolve("NAME") # dissolve the tracts by county, based on place name
     places.to_file(out_file, layer = f"{lname}-places") # make it its own layer, write Index as part of layer 
 #%% Checking our layers are all there
-# should be state, big counties, each county, and county-places
+# should be state, big counties, each county, and each county-places
 
 layers = fiona.listlayers(out_file)
 print( f'Layers in {out_file}:', layers )
