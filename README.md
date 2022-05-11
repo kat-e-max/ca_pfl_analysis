@@ -44,21 +44,21 @@ Note that due to file size constraints on GitHub.com, the .gpkg files will not b
     - Output: "acs-data.csv" (the Census data downloaded from the API call run in script 5)
         - Census Variable B13012: women 16 to 50 years who had a birth in the past 12 months by marital status and labor force status
         - The full list of variables imported using this API call are below. *Starred* variables are most important for this analysis. 
-            'B13012_001E' : "total_w16-50" (total women 16 to 50 years)
-            'B13012_002E' : "total_w16-50_b12" (women who had a birth in the past 12 months)
-            'B13012_003E' : "ma_w16-50_b12" (now married women (including separated and spouse absent))
-            *'B13012_004E' : "ma_lf_b12" (married women who had a birth in the past 12 months, in the labor force)*
-            'B13012_005E' : "ma_nolf_b12" (married women who had a birth in the past 12 months, not in the labor force)
-            'B13012_006E' : "un_w16-50_b12" (unmarried women (never married, widowed and divorced) who had a birth in the past 12 months)
-            *'B13012_007E' : "un_w16-50_b12_lf" (unmarried women who had a birth in the past 12 months, in the labor force)*
-            'B13012_008E' : "un_w16-50_b12_nolf" (unmarried women who had a birth in the past 12 months, not in the labor force)
-            'B13012_009E' : "w_nobl12" (women who did not have a birth in the past 12 months)
-            'B13012_010E' : "w_nobl12_ma" (married women who did not have a birth in the past 12 months)
-            'B13012_011E' : "w_nobl12_ma_lf" (married women who did not have a birth in the past 12 months, in the labor force)
-            'B13012_012E' : "w_nobl12_ma_nolf" (married women who did not have a birth in the past 12 months, not in the labor force)
-            'B13012_013E' : "w_nobl12_un" (unmarried women who did not have a birth in the past 12 months)
-            'B13012_014E' : "w_nobl12_un_lf" (unmarried women who did not have a birth in the past 12 months, in the labor force)
-            'B13012_015E' : "w_nobl12_un_nolf" (unmarried women who did not have a birth in the past 12 months, not in the labor force)
+            - 'B13012_001E' : "total_w16-50" (total women 16 to 50 years)
+            - 'B13012_002E' : "total_w16-50_b12" (women who had a birth in the past 12 months)
+            - 'B13012_003E' : "ma_w16-50_b12" (now married women (including separated and spouse absent))
+            - *'B13012_004E' : "ma_lf_b12" (married women who had a birth in the past 12 months, in the labor force)*
+            - 'B13012_005E' : "ma_nolf_b12" (married women who had a birth in the past 12 months, not in the labor force)
+            - 'B13012_006E' : "un_w16-50_b12" (unmarried women (never married, widowed and divorced) who had a birth in the past 12 months)
+            - *'B13012_007E' : "un_w16-50_b12_lf" (unmarried women who had a birth in the past 12 months, in the labor force)*
+            - 'B13012_008E' : "un_w16-50_b12_nolf" (unmarried women who had a birth in the past 12 months, not in the labor force)
+            - 'B13012_009E' : "w_nobl12" (women who did not have a birth in the past 12 months)
+            - 'B13012_010E' : "w_nobl12_ma" (married women who did not have a birth in the past 12 months)
+            - 'B13012_011E' : "w_nobl12_ma_lf" (married women who did not have a birth in the past 12 months, in the labor force)
+            - 'B13012_012E' : "w_nobl12_ma_nolf" (married women who did not have a birth in the past 12 months, not in the labor force)
+            - 'B13012_013E' : "w_nobl12_un" (unmarried women who did not have a birth in the past 12 months)
+            - 'B13012_014E' : "w_nobl12_un_lf" (unmarried women who did not have a birth in the past 12 months, in the labor force)
+            - 'B13012_015E' : "w_nobl12_un_nolf" (unmarried women who did not have a birth in the past 12 months, not in the labor force)
 
 6. *06_acs_analyze.py*
     - Purpose: This script analyzes aspects of the Census data downloaded in script 5. 
