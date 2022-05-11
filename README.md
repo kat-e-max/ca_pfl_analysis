@@ -43,7 +43,7 @@ Note that due to file size constraints on GitHub.com, the .gpkg files will not b
     - Input: the shortlist of ACS variables of interest ("ACS2018_var.xlsx")
     - Output: "acs-data.csv" (the Census data downloaded from the API call run in script 5)
         - Census Variable B13012: women 16 to 50 years who had a birth in the past 12 months by marital status and labor force status
-        - The full list of variables imported using this API call are below. *Starred* variables are most important for this analysis. 
+        - The full list of variables imported using this API call are below. *Italicized* variables are most important for this analysis. 
             - 'B13012_001E' : "total_w16-50" (total women 16 to 50 years)
             - 'B13012_002E' : "total_w16-50_b12" (women who had a birth in the past 12 months)
             - 'B13012_003E' : "ma_w16-50_b12" (now married women (including separated and spouse absent))
