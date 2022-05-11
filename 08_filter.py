@@ -27,6 +27,7 @@ if os.path.exists(out_file):
 
 # reading in whole state layer, immediately write out
 state = gpd.read_file("merge.gpkg", layer = "state")
+state.plot() # this visualizes the entire state with census tracts in white
 state.to_file(out_file, layer = "state", index = False)
 
 # read in the ACS data on big counties from the previous script with the correct variable types
@@ -43,8 +44,9 @@ state = state.query("(GEOID_tract != '06037599100') & (GEOID_tract != '060375990
 is_big = state["COUNTYFP"].isin(counties) # T/F if the county is in the list of big counties
 big_only = state [ is_big ]
 
-# doing a test plot to check where the counties are visually 
-big_only.plot("COUNTYFP")
+# doing test plots to check where the counties are visually 
+big_only.plot("COUNTYFP") # this plots each county on its own plot
+big_only.plot() # this plots all big counties together on 1 plot 
     
 # write out the layer of big counties to geopackage file
 big_only.to_file(out_file, layer = "big_counties", index = False)
