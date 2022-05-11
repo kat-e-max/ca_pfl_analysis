@@ -18,6 +18,7 @@ Note that due to file size constraints on GitHub.com, the .gpkg files will not b
     - Purpose: This script uses the monthly summary data on the PFL program from California's Open Data Portal and applies some basic data cleaning techniques to prepare it for analysis in script 2.
     - Input: "Paid_Family_Leave__PFL__-_Monthly_Data.csv"
     - Output: "ca_pfl_data.csv" (a cleaned up version of the input)
+        - Variables: Date (MM/DD/YYYY format), Month (name), Year (YYYY format), Total PFL First Claims Filed, Bonding Claims Filed, Care Claims Filed, Total PFL First Claims Paid, Bonding Claims Paid, Care Claims Paid, Average Weekly Benefit Amount (AWBA) in dollars, Weeks Compensated, Average Duration (weeks), Total Benefits Authorized in millions of dollars
 
 2. *02_ca_pfl_analyze.py*
     - Purpose: This script analyzes aspects of the PFL monthly data cleaned in script 1 and plots some visualizations.
@@ -29,6 +30,7 @@ Note that due to file size constraints on GitHub.com, the .gpkg files will not b
     in script 4.
     - Input: "Claimant Demographics-DE_2530_Rev.5_1-22.csv"
     - Output: "claimant.csv" (a cleaned up version of the input)
+        - Variables: Year (YYYY format), follwoed by the total first PFL claims filed for bonding claims (female, male, unknown, total), care claims (female, male, unknown, total), and total claims (female, male, unknown, total)
 
 4. *04_ca_claimant-demographics_analyze.py*
     - Purpose: This script analyzes aspects of the claimant demographics data imported in script 3 and plots some visualizations.
@@ -40,6 +42,23 @@ Note that due to file size constraints on GitHub.com, the .gpkg files will not b
     converts the data of interest to a Pandas dataframe, and writes out the dataframe to a .csv file.
     - Input: the shortlist of ACS variables of interest ("ACS2018_var.xlsx")
     - Output: "acs-data.csv" (the Census data downloaded from the API call run in script 5)
+        - Census Variable B13012: women 16 to 50 years who had a birth in the past 12 months by marital status and labor force status
+        - The full list of variables imported using this API call are below. *Starred* variables are most important for this analysis. 
+            'B13012_001E' : "total_w16-50" (total women 16 to 50 years)
+            'B13012_002E' : "total_w16-50_b12" (women who had a birth in the past 12 months)
+            'B13012_003E' : "ma_w16-50_b12" (now married women (including separated and spouse absent))
+            *'B13012_004E' : "ma_lf_b12" (married women who had a birth in the past 12 months, in the labor force)*
+            'B13012_005E' : "ma_nolf_b12" (married women who had a birth in the past 12 months, not in the labor force)
+            'B13012_006E' : "un_w16-50_b12" (unmarried women (never married, widowed and divorced) who had a birth in the past 12 months)
+            *'B13012_007E' : "un_w16-50_b12_lf" (unmarried women who had a birth in the past 12 months, in the labor force)*
+            'B13012_008E' : "un_w16-50_b12_nolf" (unmarried women who had a birth in the past 12 months, not in the labor force)
+            'B13012_009E' : "w_nobl12" (women who did not have a birth in the past 12 months)
+            'B13012_010E' : "w_nobl12_ma" (married women who did not have a birth in the past 12 months)
+            'B13012_011E' : "w_nobl12_ma_lf" (married women who did not have a birth in the past 12 months, in the labor force)
+            'B13012_012E' : "w_nobl12_ma_nolf" (married women who did not have a birth in the past 12 months, not in the labor force)
+            'B13012_013E' : "w_nobl12_un" (unmarried women who did not have a birth in the past 12 months)
+            'B13012_014E' : "w_nobl12_un_lf" (unmarried women who did not have a birth in the past 12 months, in the labor force)
+            'B13012_015E' : "w_nobl12_un_nolf" (unmarried women who did not have a birth in the past 12 months, not in the labor force)
 
 6. *06_acs_analyze.py*
     - Purpose: This script analyzes aspects of the Census data downloaded in script 5. 
@@ -48,21 +67,26 @@ Note that due to file size constraints on GitHub.com, the .gpkg files will not b
     Those counties are thereafter referred to as the "big counties."
     The script then creates a dataframe of those big counties, and writes out the dataframe to a .csv file.
     - Input: "acs-data.csv"
-    - Output: "big.csv" (dataframe of big counties' ACS data)
+    - Output: "big.csv"ACS
+        - This is a dataframe of the big counties' ACS data.
+        - Variables and units: GEOID, county number, tract number, the number of married women in the labor force who gave birth in the last 12 months, the number of unmarried women in the labor force who gave birth in the last 12 months, and the total of those two values.
 
 7. *07_merge.py*
     - Purpose: This script merges the ACS data on the big counties with their corresponding geographic data (tracts and places).
     It does this by reading in the data, intersecting the tracts and places, and joining the ACS data onto the intersected data.
     After some basic data cleaning and setting up the projection, it writes out the geodataframe to a geopackage file.
     - Inputs: "big.csv", "tl_2018_06_tract.zip", "tl_2018_06_place.zip"
-    - Output: "merge.gpkg" (layer: "state") (a geopackage file with 1 layer: the entire state of California, with tract and place data. ACS data on big counties is also in this layer, but we will use other layers created in the next script to highlight those.)
+    - Output: "merge.gpkg" (layer: "state") 
+        - This is a geopackage file with 1 layer: the entire state of California, with tract and place data. 
+        - ACS data on big counties is also in this layer, but we will use other layers created in the next script to highlight those.
 
 8. *08_filter.py*
     - Purpose: This script puts each of the big counties and their corresponding places on their own layers, and prepares them for visualizing in QGIS
     - Inputs: "big.csv", "merge.gpkg"
     - Outputs: "filter.gpkg" (with the following new layers: "big_counties", "alameda", "alameda-places", "sacramento", "sacramento-places", "santaclara", "santaclara-places", "losangeles", "losangeles-places", "sandiego", "sandiego-places", "sanbernardino", "sanbernardino-places", "riverside", "riverside-places", "orange", "orange-places")
         - This output file builds upon the work done in script 7 by adding layers for the big counties as a group and each of the big counties on its own. Each of the big counties also has its own layer with the place names data.
-    
+        - This is the data we will use in QGIS.
+        
 After running *08_filter.py*, switch over to QGIS to create the final visualizations.
 - Open QGIS. Save the project as "outreach.qgz"
 - Import the data created in script 8 
