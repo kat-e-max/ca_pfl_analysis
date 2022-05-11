@@ -63,7 +63,7 @@ Note that due to file size constraints on GitHub.com, the .gpkg files will not b
     - Outputs: "filter.gpkg" (with the following new layers: "big_counties", "alameda", "alameda-places", "sacramento", "sacramento-places", "santaclara", "santaclara-places", "losangeles", "losangeles-places", "sandiego", "sandiego-places", "sanbernardino", "sanbernardino-places", "riverside", "riverside-places", "orange", "orange-places")
 
 After running *08_filter.py*, switch over to QGIS to create the final visualizations.
-- Open QGIS. Save the project as "outreach.gqz"
+- Open QGIS. Save the project as "outreach.qgz"
 - Import the data created in script 8 
     - Click "Layer," then "Add Layer," then "Add Vector Layer"
     - Select "filter.gpkg" and then confirm "Add"
