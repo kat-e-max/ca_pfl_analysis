@@ -62,6 +62,7 @@ county_names = {'001' : 'Alameda',
                 '059' : 'Orange'}
 
 # for loop to select individual counties, plot them, export as individual layers
+# this creates 2 layers per county - one with place names, one with the Census data by tract
 for code,name in county_names.items(): # return the key and value for each entry
     lname = name.lower().replace(' ','') # make a lower case name with no spaces
     selected = state.query( f"COUNTYFP == '{code}'") # select the county through a query
